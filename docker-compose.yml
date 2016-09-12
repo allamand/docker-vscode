@@ -1,0 +1,21 @@
+
+version: '2'
+
+services:
+
+  vscode:
+    image: sebmoule/docker-vscode
+    environment:
+      - "DISPLAY=${DISPLAY}"
+    hostname: intellij
+    tty: true
+    stdin_open: true
+    network_mode: host 
+    volumes:
+      - ${HOME}:${HOME}
+      - /mnt/filer/work:/mnt/filer/work
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    command: vscode
+#    user: root
+
+
