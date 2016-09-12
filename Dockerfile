@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+	FROM ubuntu:16.04
 
 MAINTAINER Sebastien Allamand "sebastien@allamand.com"
 
@@ -7,8 +7,8 @@ ENV LANG=C.UTF-8 \
     DEBCONF_NONINTERACTIVE_SEEN=true
 
 ARG MYUSERNAME=developer
-ARG MYUID=1000
-ARG MYGID=100
+ARG MYUID=2000
+ARG MYGID=200
 ENV MYUSERNAME=${MYUSERNAME} \
     MYUID=${MYUID} \
     MYGID=${MYGID} 

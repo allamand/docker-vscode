@@ -27,7 +27,7 @@ ID=$(id -u)
 #If we are root and we have give a MYUID different from default
 if [ "$ID" -eq "0" ] && [ $MYUID != "" ]; then
     echo "Creating user $MYUSERNAME"
-    groupadd -g $MYGID users || true
+    groupadd -g $MYGID myusers || true
     useradd --uid $MYUID --gid $MYGID -s /bin/bash --home /home/$MYUSERNAME $MYUSERNAME
     echo "${MYUSERNAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${MYUSERNAME} 
     sudo chmod 0440 /etc/sudoers.d/${MYUSERNAME}
