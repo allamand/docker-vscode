@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-function delayedPluginInstall {
+function installLinter {
 #source : https://github.com/Microsoft/vscode-go
     echo "Install more powerful linter to check code" 
     go get -u github.com/alecthomas/gometalinter      
@@ -24,22 +24,32 @@ function delayedPluginInstall {
 echo "You are connecting with User ${MYUSERNAME}"
 
 ID=$(id -u)
+#If we are root and we have give a MYUID different from default
 if [ "$ID" -eq "0" ] && [ $MYUID != "" ]; then
     echo "Creating user $MYUSERNAME"
+    groupadd -g $MYGID users || true
     useradd --uid $MYUID --gid $MYGID -s /bin/bash --home /home/$MYUSERNAME $MYUSERNAME
+    echo "${MYUSERNAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${MYUSERNAME} 
+    sudo chmod 0440 /etc/sudoers.d/${MYUSERNAME}
 fi
 
 if [ "$1" == "vscode" ]; then
-
+    
     if [ ! -d /home/${MYUSERNAME}/go/src/github.com/alecthomas/gometalinter ]; then
 	# We are running a fresh install we install some plugons
-	delayedPluginInstall
+	installLinter
+    else
+	echo "Go Linters already installed in your GOPATH.. Skipping"
     fi
     
     echo "Starting vscode $1, code"
     if [ $ID = 0 ];then
-	su $MYUSERNAME -c "source /home/$MYUSERNAME/.bashrc && code"
-	exec su $MYUSERNAME
+	if [ -f /home/$MYUSERNAME/.bashrc ]; then
+	    su $MYUSERNAME -c "source /home/$MYUSERNAME/.bashrc && code"
+	else
+	    su $MYUSERNAME -c "code"
+	fi
+	exec su $MYUSERNAME # give a bash
     fi
 else
     echo "Starting your overrided command : $1: exec $@"

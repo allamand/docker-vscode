@@ -62,10 +62,10 @@ RUN apt-get update -qq && \
 
 
 #USER ${MYUSERNAME}
-#ENV HOME /home/${MYUSERNAME}
-#ENV GOPATH /home/${MYUSERNAME}/go
-#ENV PATH $PATH:/home/${MYUSERNAME}/go/bin:/usr/local/go/bin
-#WORKDIR /home/${MYUSERNAME}/go
+ENV HOME /home/${MYUSERNAME}
+ENV GOPATH /home/${MYUSERNAME}/go
+ENV PATH $PATH:/home/${MYUSERNAME}/go/bin:/usr/local/go/bin
+WORKDIR /home/${MYUSERNAME}/go
 
 ADD ./entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

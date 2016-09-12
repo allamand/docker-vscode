@@ -5,7 +5,7 @@ We ship this image with at least some of common dev tools I used
 The image contains the following software:
 
 
-- [Visual Studio Code](https://code.visualstudio.com/) [140 Mo ]
+- [Visual Studio Code](https://code.visualstudio.com/) [ 140 Mo ]
 - [Go 1.6.3](https://golang.org/) [ 320Mo ]
 - git 2.7.4
 - Emacs 24.5.1 + ruby 2.3.1 [ 189Mo ]
@@ -40,14 +40,36 @@ docker run -ti \
   --name=vscode \
   -u root \
   -h vscode \
-  -e DISPLAY=$(DISPLAY) \
-  -e MYUID=$(shell id -u) \
-  -e MYGID=$(shell id -g) \
-  -e MYUSERNAME=$(shell id -un) \
+  -e DISPLAY=$DISPLAY \
+  -e MYUID=$(id -u) \
+  -e MYGID=$(id -g) \
+  -e MYUSERNAME=$(id -un) \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-  -v $(HOME):$(HOME) \
+  -v $HOME:$HOME \
   sebmoule/vscode
 ```
+
+If you do so and bind-mount your home, your .bashrc Profile **MUST** set GOPATH and PATH so that it can resolve on `/usr/local/go/bin`.
+
+If you prefere not to bind-mount your whole Home, then you need to bind-mount your GOPATH endpoint and the Xauthority file :
+
+```bash
+docker run -ti \
+  --net="host" \
+  --name=vscode \
+  -u root \
+  -h vscode \
+  -e DISPLAY=$DISPLAY \
+  -e MYUID=$(id -u) \
+  -e MYGID=$(id -g) \
+  -e MYUSERNAME=$(id -un) \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v $HOME/go:$HOME/go \
+  -v $HOME/.Xauthority:$HOME/.Xauthority \
+  sebmoule/vscode
+```
+
+
 ### Entrypoint
 
 The entrypoint will create your user inside the container if you have passed the according Environment variables.
