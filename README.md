@@ -24,11 +24,6 @@ You'll have to pass env variables `MYUSERNAME`, `MYUID` and `MYGID` so that when
 By default the build of the image will be made with a generic user inside.
   - `make build`
 
-### OLD Way
->If you plan too bind-mount you Home inside the Container to have a fill Dockerized Development Environment you may choose to create the user inside the container sith your name and uid so that you can edit all files :
->  - `make build-user`
-
-
 ## Running
 
 There are 2 run Options :
@@ -43,17 +38,15 @@ By running the following command you'll be able to start the container
 docker run -ti \
   --net="host" \
   --name=vscode \
-  --privileged=true \
   -u root \
   -h vscode \
-  -e DISPLAY=${DISPLAY} \
-  -e MYUID=${shell id -u} \
-  -e MYGID=${shell id -g} \
-  -e MYUSERNAME=${shell id -un} \
+  -e DISPLAY=$(DISPLAY) \
+  -e MYUID=$(shell id -u) \
+  -e MYGID=$(shell id -g) \
+  -e MYUSERNAME=$(shell id -un) \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-  -v ${HOME}:${HOME} \
-  -v /mnt/filer/work:/mnt/filer/work \
-  sebmoule/vscode $(ARGS)
+  -v $(HOME):$(HOME) \
+  sebmoule/vscode
 ```
 ### Entrypoint
 
@@ -72,8 +65,14 @@ When bind-mounting you Home into the Container it will execture your `.bashrc` i
 
 ## Customizing the container
 
-You can replace the `${GOPATH}` environment variable to a hardcoded path that
+You can replace the `$(GOPATH)` environment variable to a hardcoded path that
 you have in your directory.
 
 You can also choose to save the preferences in another directory.
+
+
+
+### OLD Way
+>If you plan too bind-mount you Home inside the Container to have a fill Dockerized Development Environment you may choose to create the user inside the container sith your name and uid so that you can edit all files :
+>  - `make build-user`
 
