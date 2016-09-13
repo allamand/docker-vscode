@@ -1,4 +1,4 @@
-# Docker image for VsCode, Go and Go plugin
+# Go Dev Environment with VsCode
 
 The Goal of this image is to have a portable development environment.
 We ship this image with at least some of common dev tools I used
@@ -10,6 +10,8 @@ The image contains the following software:
 - [git]() 2.7.4
 - [Emacs]() 24.5.1 + ruby 2.3.1 [ 189Mo ]
 - Cloud Foundry Client 6.12 [25Mo]
+
+[![](https://images.microbadger.com/badges/version/sebmoule/docker-vscode.svg)](http://microbadger.com/images/sebmoule/docker-vscode "Get your own version badge on microbadger.com")
 
 ## Managing User
 
