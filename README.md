@@ -17,7 +17,7 @@ The image contains the following software:
 
 The best way to work with this tool is to bind-mount you $HOME inside the container so that you will be 
 able to work on you file.
-I prefer not to work as root inside the container, so i will create you user inside the container at startup.
+I prefer not to work as root inside the container, so I will create you user inside the container at startup.
 You'll have to pass env variables `MYUSERNAME`, `MYUID` and `MYGID` so that when you edit files inside the container you'll have the sames rights as outside.
 
 ## Get Image
