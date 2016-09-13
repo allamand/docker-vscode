@@ -70,3 +70,14 @@ WORKDIR /home/${MYUSERNAME}/go
 ADD ./entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["vscode"]
+
+ARG VCF_REF
+ARG BUILD_DATE
+LABEL   org.label-schema.build-date=$BUILD_DATE \
+        org.label-schema.docker.dockerfile="/Dockerfile" \
+        org.label-schema.license="MIT" \
+        org.label-schema.name="VsCode" \
+        org.label-schema.url="https://code.visualstudio.com/" \
+        org.label-schema.vcs-type="Git" \
+        org.label-schema.vcs-url="https://github.com/sebmoule/docker-vscode" \
+        org.label-schema.vcs-ref=$VCS_REF

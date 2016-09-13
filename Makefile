@@ -10,7 +10,8 @@ endif
 #Build with generic user developer inside  the docker
 build:
 	echo 'This will take a lot of time...'
-	docker build --rm -t sebmoule/vscode \
+	docker build --build-arg VCF_REF=${shell git rev-parse --short HEAD} \
+	--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ` --rm -t sebmoule/vscode \
 		.
 
 rerun: 
