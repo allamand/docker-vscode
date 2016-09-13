@@ -19,10 +19,9 @@ rerun:
 	make -s run
 
 run:	
-	docker run -ti \
+	docker run -dti \
 	--net="host" \
 	--name=vscode \
-	-u root \
 	-h vscode \
 	-e DISPLAY=${DISPLAY} \
 	-e MYUID=${shell id -u} \
@@ -30,6 +29,7 @@ run:
 	-e MYUSERNAME=${shell id -un} \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ${HOME}:${HOME} \
+	-w /mnt/filer/work \
 	-v /mnt/filer/work:/mnt/filer/work \
 	sebmoule/vscode $(ARGS)
 
