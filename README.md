@@ -14,6 +14,10 @@ The image contains the following software:
 [![](https://images.microbadger.com/badges/version/sebmoule/docker-vscode.svg)](http://microbadger.com/images/sebmoule/docker-vscode "Get your own version badge on microbadger.com")
 [![](https://images.microbadger.com/badges/image/sebmoule/docker-vscode.svg)](http://microbadger.com/images/sebmoule/docker-vscode "Get your own image badge on microbadger.com")
 
+[![Docker Hub](https://img.shields.io/badge/docker-ready-blue.svg)](https://hub.docker.com/r/sebmoule/docker-vscode/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/sebmoule/docker-vscode.svg?maxAge=2592000)]()
+[![Docker Stars](https://img.shields.io/docker/stars/sebmoule/docker-vscode.svg?maxAge=2592000)]()
+
 
 ## Managing User
 

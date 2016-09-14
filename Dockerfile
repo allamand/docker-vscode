@@ -34,7 +34,7 @@ RUN apt-get update -qq && \
       libgconf-2-4 libnotify4 libnspr4 libnss3 libnss3-nssdb \
       libxtst-dev libgtk2.0-0 libcanberra-gtk-module \
       git curl \
-      emacs ruby \
+      emacs ruby make bash-completion \
     && \
     echo 'Cleaning up' && \
     apt-get clean -qq -y && \
