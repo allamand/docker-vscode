@@ -9,14 +9,14 @@ ENV LANG=C.UTF-8 \
 
 ARG VCF_REF
 ARG BUILD_DATE
-LABEL   org.label-schema.docker.dockerfile="/Dockerfile" \
-        org.label-schema.license="MIT" \
-        org.label-schema.name="VsCode" \
-        org.label-schema.url="https://code.visualstudio.com/" \
-        org.label-schema.vcs-type="Git" \
-        org.label-schema.vcs-url="https://github.com/sebmoule/docker-vscode" \
-	org.label-schema.build-date=$BUILD_DATE \
-	org.label-schema.vcs-ref=$VCS_REF
+LABEL org.label-schema.docker.dockerfile="/Dockerfile" \
+      org.label-schema.license="MIT" \
+      org.label-schema.name="e.g. VsCode" \
+      org.label-schema.url="https://code.visualstudio.com/" \
+      org.label-schema.vcs-type="e.g. Git" \
+      org.label-schema.vcs-url="e.g.https://github.com/sebmoule/docker-vscode" \
+      org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.vcs-ref=$VCS_REF
 
 
 ARG MYUSERNAME=developer
@@ -85,7 +85,7 @@ ADD ./entrypoint.sh /entrypoint.sh
 # Add Tini Init System
 ENV TINI_VERSION v0.10.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-RUN chmod +x /tini
+RUN chmod +x /tini && chmod +x /entrypoint.sh
 ENTRYPOINT ["/tini", "--", "/entrypoint.sh"]
 #ENTRYPOINT ["/entrypoint.sh"]
 CMD ["vscode"]

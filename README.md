@@ -12,6 +12,8 @@ The image contains the following software:
 - Cloud Foundry Client 6.12 [25Mo]
 
 [![](https://images.microbadger.com/badges/version/sebmoule/docker-vscode.svg)](http://microbadger.com/images/sebmoule/docker-vscode "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/sebmoule/docker-vscode.svg)](http://microbadger.com/images/sebmoule/docker-vscode "Get your own image badge on microbadger.com")
+
 
 ## Managing User
 
