@@ -81,6 +81,12 @@ ENV PATH $PATH:/home/${MYUSERNAME}/go/bin:/usr/local/go/bin
 WORKDIR /home/${MYUSERNAME}/go
 
 ADD ./entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+
+# Add Tini Init System
+ENV TINI_VERSION v0.10.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--", "/entrypoint.sh"]
+#ENTRYPOINT ["/entrypoint.sh"]
 CMD ["vscode"]
 
