@@ -57,35 +57,34 @@ docker run -dti \
   -e MYUID=$(id -u) \
   -e MYGID=$(id -g) \
   -e MYUSERNAME=$(id -un) \
+  -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
+  -v $(dirname $SSH_AUTH_SOCK):$(dirname $SSH_AUTH_SOCK) \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v $HOME:$HOME \
+  -w $HOME \
   sebmoule/docker-vscode
 ```
 
-- We give the Unix display to the container and bind-mount the X11 socket
-- we give Environment variable according our unix user we want to create inside the container
-- We bind-mount our `HOME` so that we can works with our files
-  - If you do so and bind-mount your home, your .bashrc Profile **MUST** set GOPATH and PATH so that it can resolve on `/usr/local/go/bin`.
-- that also mount the vscode preference directories `.config` and `.vscode`
+Explain Parameters :
 
-If you prefere not to bind-mount your whole Home, then you need to bind-mount your GOPATH endpoint and the Xauthority file :
+- Make Graphical application Works : share DISPLAY, X11 socket en local network
+  - `--net="host"` 
+  - `-e $DISPLAY`
+  - `-v /tmp/.X11-unix:/tmp/.X11-unix`
+- Gives Home access and Create your own user inside the container :
+  - `-e MYUID=$(id -u)` create user with your UID
+  - `-e MYGID=$(id -g)` create group with your GID
+  - `-e MYUSERNAME=$(id -un)` create user with you username
+  - `-v ${HOME}:${HOME}` We bind-mount our `HOME` so that we can works with our files and access at least to :
+    - `~/.bashrc ~/.Xauthority ~/.local/ .ssh ~/.gconf ~/.npm ~/.config/Code ~/.vscode` ...
+    - If you do so and bind-mount your home, your .bashrc Profile **MUST** set `GOPATH` and `PATH` so that it can resolve on `/usr/local/go/bin`.	
+    - that also mount the vscode preference directories `.config` and `.vscode`
+  - `-w $HOME` set working directory to $HOME or whatever you like (your $GOPATH..)
+- Gives access to your SSH-Agent (for ssh keys to connect to servers, git...)
+  - `-e SSH_AUTH_SOCK=$SSH_AUTH_SOCK`
+  - `-v $(dirname $SSH_AUTH_SOCK):$(dirname $SSH_AUTH_SOCK)`
 
-```bash
-docker run -dti \
-  --net="host" \
-  --name=vscode \
-  -h vscode \
-  -e DISPLAY=$DISPLAY \
-  -e MYUID=$(id -u) \
-  -e MYGID=$(id -g) \
-  -e MYUSERNAME=$(id -un) \
-  -v /tmp/.X11-unix:/tmp/.X11-unix \
-  -v $HOME/go:$HOME/go \
-  -v $HOME/.Xauthority:$HOME/.Xauthority \
-  sebmoule/vscode
-```
 
-- here we don't bind the whole HOME but our go directory and Xauthority
 
 ### Entrypoint
 
@@ -102,11 +101,28 @@ GOPATH, then see below how you can customize this to run correctly.
 
 When bind-mounting you Home into the Container it will execture your `.bashrc` inside the container.
 
+### Configuring .bashrc
 
+This Tool when bind-mounting your $HOME inside the container will  source your `HOME/.bashrc` file.
+To work properly this file must at least contains :
 
-# Annexes
+```bash
+...
+#Add my PATH                                                                                                                                                                   
+export GOPATH=~/go                                                                                                                                                             
+PATH=$PATH:~/bin:~/.local/bin/:$GOPATH/bin/:/usr/local/go/bin/ 
+...
+```
 
-### OLD Way
->If you plan too bind-mount you Home inside the Container to have a fill Dockerized Development Environment you may choose to create the user inside the container sith your name and uid so that you can edit all files :
->  - `make build-user`
+In order to know when I work inside the container or on my box, I have differentiate my bash Prompt with different colors :
 
+```bash
+       # If we have MYUSERNAME we are in Docker                                                                                                                               
+        if [ -z "$MYUSERNAME" ]; then                                                                                                                                          
+            #I am on my box                                                                                                                                                    
+            PS1="[\[\033[31m\]\u\[\033[00m\]@\[\033[35m\]\h\[\033[00m\]: \[\033[34m\]\w\[\033[00m\]]\[\033[00m\]$"                                                             
+        else                                                                                                                                                                   
+            #I am in the container                                                                                                                                             
+            PS1="[\[\033[34m\]\u\[\033[00m\]@\[\033[32m\]\h-in-docker\[\033[00m\]: \[\033[35m\]\w\[\033[00m\]]\[\033[00m\]$"                                                   
+        fi  
+```

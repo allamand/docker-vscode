@@ -33,15 +33,21 @@ RUN apt-get update -qq && \
       sudo software-properties-common libxext-dev libxrender-dev libxslt1.1 \
       libgconf-2-4 libnotify4 libnspr4 libnss3 libnss3-nssdb \
       libxtst-dev libgtk2.0-0 libcanberra-gtk-module \
-      git curl \
+      git curl tree locate \
       emacs ruby make bash-completion \
+      bash-completion python python-pip meld \
+      nodejs-legacy npm \
     && \
+    npm install -g npm && \
+    pip install --upgrade pip && \
+    pip install mkdocs && \
     echo 'Cleaning up' && \
     apt-get clean -qq -y && \
     apt-get autoclean -qq -y && \
     apt-get autoremove -qq -y &&  \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
+    updatedb && \
 
 
     echo 'Creating user: ${MYUSERNAME} wit UID $UID' && \
@@ -70,7 +76,8 @@ RUN apt-get update -qq && \
     curl -o cf_cli.deb -J -L 'https://cli.run.pivotal.io/stable?release=debian64&source=github' && \
     dpkg -i cf_cli.deb  && rm cf_cli.deb && \
     sudo gem install cf_completion && \
-    echo "complete -C cf_completion cf" >> ~/.bash_profile 
+    echo "complete -C cf_completion cf" >> ~/.bash_profile && \
+    echo "Install OK"
 
 
 

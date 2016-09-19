@@ -28,12 +28,13 @@ run:
 	-e MYUID=${shell id -u} \
 	-e MYGID=${shell id -g} \
 	-e MYUSERNAME=${shell id -un} \
+	-e SSH_AUTH_SOCK=${SSH_AUTH_SOCK} \
+	-v ${shell dirname ${SSH_AUTH_SOCK}}:${shell dirname ${SSH_AUTH_SOCK}} \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v ${HOME}:${HOME} \
 	-w /mnt/filer/work \
 	-v /mnt/filer/work:/mnt/filer/work \
 	sebmoule/vscode $(ARGS)
-
 
 
 

@@ -58,7 +58,7 @@ if [ "$1" == "vscode" ]; then
 	    su $MYUSERNAME -c "code"
 	fi
 	echo "Code a rendu la main..., we Exit"
-#	exec su $MYUSERNAME -c bash # give a bash
+	#exec su $MYUSERNAME -c bash # give a bash
 #	exec bash
     fi
 else
