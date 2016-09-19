@@ -126,3 +126,9 @@ In order to know when I work inside the container or on my box, I have different
             PS1="[\[\033[34m\]\u\[\033[00m\]@\[\033[32m\]\h-in-docker\[\033[00m\]: \[\033[35m\]\w\[\033[00m\]]\[\033[00m\]$"                                                   
         fi  
 ```
+
+
+# Demo
+
+[![asciicast](https://asciinema.org/a/86284.png)](https://asciinema.org/a/86284)
+
