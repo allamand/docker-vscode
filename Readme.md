@@ -46,24 +46,32 @@ Running the container with user's specified inside :
   - `make run`
 
 which runs :
-By running the following command you'll be able to start the container
+By running the following command you'll be able to start the container.
+I've added it to my bash aliases
 
 ```bash
-docker run -dti \
-  --net="host" \
-  --name=vscode \
-  -h vscode \
-  -e DISPLAY=$DISPLAY \
-  -e MYUID=$(id -u) \
-  -e MYGID=$(id -g) \
-  -e MYUSERNAME=$(id -un) \
-  -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
-  -v $(dirname $SSH_AUTH_SOCK):$(dirname $SSH_AUTH_SOCK) \
-  -v /tmp/.X11-unix:/tmp/.X11-unix \
-  -v $HOME:$HOME \
-  -w $HOME \
-  sebmoule/docker-vscode
+alias vscode='docker rm vscode || true ; docker run -dti \
+  docker run -dti \
+    --net="host" \
+    --name=vscode \
+    -h vscode \
+    -e DISPLAY=$DISPLAY \
+    -e MYUID=$(id -u) \
+    -e MYGID=$(id -g) \
+    -e MYUSERNAME=$(id -un) \
+    -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
+    -v $(dirname $SSH_AUTH_SOCK):$(dirname $SSH_AUTH_SOCK) \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v $HOME:$HOME \
+    -w $HOME \
+    sebmoule/docker-vscode'
 ```
+
+>with this alias, I remove and Recreate my container If not running.
+>If my container vscode is already running, then it won't delete it neither create another one.
+>I can just enter the container and start working.
+
+
 
 Explain Parameters :
 
