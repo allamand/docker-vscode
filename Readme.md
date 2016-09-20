@@ -131,6 +131,9 @@ In order to know when I work inside the container or on my box, I have different
 # Demo
 
 
+![demo](https://github.com/sebmoule/docker-vscode/raw/master/demo.gif)
+<!-- 
 ![demo](demo.gif)
-<!-- [![asciicast](https://asciinema.org/a/86284.png)](https://asciinema.org/a/86284) -->
+[![asciicast](https://asciinema.org/a/86284.png)](https://asciinema.org/a/86284) 
+-->
 
