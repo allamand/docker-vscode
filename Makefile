@@ -1,4 +1,6 @@
 
+NAME=docker-vscode
+
 
 ifndef ARGS
 ARGS="vscode"
@@ -11,12 +13,12 @@ endif
 build:
 	echo 'This will take a lot of time...'
 	docker build --build-arg VCF_REF=${shell git rev-parse --short HEAD} \
-	--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` --rm -t sebmoule/vscode \
+	--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` --rm -t sebmoule/$(NAME) \
 		.
 
 rerun: 
-	docker stop vscode || true
-	docker rm vscode || true
+	docker stop $(NAME) || true
+	docker rm $(NAME) || true
 	make -s run
 
 run:	
@@ -34,7 +36,7 @@ run:
 	-v ${HOME}:${HOME} \
 	-w /mnt/filer/work \
 	-v /mnt/filer/work:/mnt/filer/work \
-	sebmoule/vscode $(ARGS)
+	sebmoule/$(NAME) $(ARGS)
 
 
 
@@ -44,7 +46,7 @@ run:
 #Build withlocal user inside the image docker 
 build-user:
 	echo 'This will take a lot of time...'
-	docker build --rm -t sebmoule/vscode-${USER} \
+	docker build --rm -t sebmoule/$(NAME)-${USER} \
 		--build-arg MYUSERNAME=${USER} \
 		--build-arg MYUID=${shell id -u} \
 		--build-arg MYGID=${shell id -g} \
@@ -62,7 +64,7 @@ run-user:
            -v /tmp/.X11-unix:/tmp/.X11-unix \
            -v ${HOME}:${HOME} \
            -v /mnt/filer/work:/mnt/filer/work \
-           sebmoule/vscode-${USER} bash
+           sebmoule/$(NAME)-${USER} bash
 
 
 

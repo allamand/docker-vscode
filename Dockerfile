@@ -4,8 +4,10 @@ MAINTAINER Sebastien Allamand "sebastien@allamand.com"
 
 ENV LANG=C.UTF-8 \
     DEBIAN_FRONTEND=noninteractive \
-    DEBCONF_NONINTERACTIVE_SEEN=true
-
+    DEBCONF_NONINTERACTIVE_SEEN=true \
+    VSCODE=https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable   
+#https://az764295.vo.msecnd.net/stable/5be4091987a98e3870d89d630eb87be6d9bafd27/code_1.5.3-1474533365_amd64.deb
+#VSCode 1.5.3
 
 ARG VCF_REF
 ARG BUILD_DATE
@@ -47,10 +49,10 @@ RUN apt-get update -qq && \
     apt-get autoremove -qq -y &&  \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
-    updatedb && \
+    updatedb
 
 
-    echo 'Creating user: ${MYUSERNAME} wit UID $UID' && \
+RUN echo 'Creating user: ${MYUSERNAME} wit UID $UID' && \
     mkdir -p /home/${MYUSERNAME} && \
     echo "${MYUSERNAME}:x:${MYUID}:${MYGID}:Developer,,,:/home/${MYUSERNAME}:/bin/bash" >> /etc/passwd && \
     echo "${MYUSERNAME}:x:${MYGID}:" >> /etc/group && \
@@ -68,7 +70,7 @@ RUN apt-get update -qq && \
     rm -f /tmp/go.tar.gz && \
 
     echo 'Installing VsCode' && \
-    curl -o vscode.deb -J -L 'http://go.microsoft.com/fwlink/?LinkID=760868' && \
+    curl -o vscode.deb -J -L "$VSCODE" && \
     dpkg -i vscode.deb && rm -f vscode.deb && \
 
 
