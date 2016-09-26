@@ -16,7 +16,7 @@ LABEL org.label-schema.docker.dockerfile="/Dockerfile" \
       org.label-schema.name="e.g. VsCode" \
       org.label-schema.url="https://code.visualstudio.com/" \
       org.label-schema.vcs-type="e.g. Git" \
-      org.label-schema.vcs-url="e.g.https://github.com/sebmoule/docker-vscode" \
+      org.label-schema.vcs-url="e.g.https://github.com/allamand/docker-vscode" \
       org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-ref=$VCS_REF
 
