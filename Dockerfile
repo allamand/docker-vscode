@@ -35,6 +35,7 @@ RUN apt-get update -qq && \
       sudo software-properties-common libxext-dev libxrender-dev libxslt1.1 \
       libgconf-2-4 libnotify4 libnspr4 libnss3 libnss3-nssdb \
       libxtst-dev libgtk2.0-0 libcanberra-gtk-module \
+      libxss1 \
       git curl tree locate net-tools telnet \
       emacs ruby make bash-completion \
       bash-completion python python-pip meld \
@@ -51,6 +52,7 @@ RUN apt-get update -qq && \
     rm -rf /tmp/* && \
     updatedb
 
+#RUN useradd --no-create-home -g users syncthing
 
 RUN echo 'Creating user: ${MYUSERNAME} wit UID $UID' && \
     mkdir -p /home/${MYUSERNAME} && \
@@ -96,6 +98,5 @@ ENV TINI_VERSION v0.10.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini && chmod +x /entrypoint.sh
 ENTRYPOINT ["/tini", "--", "/entrypoint.sh"]
-#ENTRYPOINT ["/entrypoint.sh"]
 CMD ["vscode"]
 
