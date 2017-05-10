@@ -41,6 +41,7 @@ RUN apt-get update -qq && \
       emacs ruby make bash-completion \
       bash-completion python python-pip meld \
       nodejs-legacy npm \
+      locales netcat \
     && \
     npm install -g npm && \
     pip install --upgrade pip && \
@@ -51,7 +52,8 @@ RUN apt-get update -qq && \
     apt-get autoremove -qq -y &&  \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* && \
-    updatedb
+    updatedb && \
+    locale-gen en_US.UTF-8
 
 #RUN useradd --no-create-home -g users syncthing
 
@@ -90,6 +92,8 @@ RUN echo 'Creating user: ${MYUSERNAME} wit UID $UID' && \
 ENV HOME /home/${MYUSERNAME}
 ENV GOPATH /home/${MYUSERNAME}/go
 ENV PATH $PATH:/home/${MYUSERNAME}/go/bin:/usr/local/go/bin
+ENV TERM=xterm
+
 WORKDIR /home/${MYUSERNAME}/go
 
 ADD ./entrypoint.sh /entrypoint.sh
