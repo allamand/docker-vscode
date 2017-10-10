@@ -5,7 +5,9 @@ MAINTAINER Sebastien Allamand "sebastien@allamand.com"
 ENV LANG=C.UTF-8 \
     DEBIAN_FRONTEND=noninteractive \
     DEBCONF_NONINTERACTIVE_SEEN=true \
-    VSCODE=https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable   
+    VSCODE=https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable \
+    TINI_VERSION=v0.16.1 \
+    GOVERSION=1.9.1
 #https://az764295.vo.msecnd.net/stable/5be4091987a98e3870d89d630eb87be6d9bafd27/code_1.5.3-1474533365_amd64.deb
 #VSCode 1.5.3
 
@@ -39,6 +41,8 @@ RUN apt-get update -qq && \
       emacs ruby make bash-completion \
       bash-completion python python-pip meld \
       nodejs-legacy npm \
+      libxkbfile1 \
+      libxss1 \
     && \
     npm install -g npm && \
     pip install --upgrade pip && \
@@ -62,10 +66,11 @@ RUN echo 'Creating user: ${MYUSERNAME} wit UID $UID' && \
     sudo chown root:root /usr/bin/sudo && \
     chmod 4755 /usr/bin/sudo && \
 
-
-    echo 'Downloading Go 1.6.3' && \
-    curl -o /tmp/go.tar.gz -J -L 'https://storage.googleapis.com/golang/go1.6.3.linux-amd64.tar.gz' && \
-    echo 'Installing Go 1.6.3' && \
+    echo "Downloading Go ${GOVERSION}" && \
+    echo curl -o /tmp/go.tar.gz -J -L "https://storage.googleapis.com/golang/go${GOVERSION}.linux-amd64.tar.gz" && \
+    curl -o /tmp/go.tar.gz -J -L "https://storage.googleapis.com/golang/go${GOVERSION}.linux-amd64.tar.gz" && \	    
+    
+    echo "Installing Go ${GOVERSION}" && \
     sudo tar -zxf /tmp/go.tar.gz -C /usr/local/ && \
     rm -f /tmp/go.tar.gz && \
 
@@ -92,10 +97,8 @@ WORKDIR /home/${MYUSERNAME}/go
 ADD ./entrypoint.sh /entrypoint.sh
 
 # Add Tini Init System
-ENV TINI_VERSION v0.10.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini && chmod +x /entrypoint.sh
 ENTRYPOINT ["/tini", "--", "/entrypoint.sh"]
-#ENTRYPOINT ["/entrypoint.sh"]
 CMD ["vscode"]
 

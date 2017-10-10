@@ -11,7 +11,7 @@ function installLinter {
     go get -u github.com/alecthomas/gometalinter;
     gometalinter --install;
     echo "For debugging we need to install delve";
-    go get github.com/derekparker/delve/cmd/dlv;
+    go get -u -v github.com/derekparker/delve/cmd/dlv;
     echo "Install go Helpers for VsCode";
     go get -u -v github.com/nsf/gocode;
     go get -u -v github.com/rogpeppe/godef;
@@ -37,6 +37,11 @@ if [ "$ID" -eq "0" ] && [ $MYUID != "" ]; then
     useradd --uid $MYUID --gid $MYGID -s /bin/bash --home /home/$MYUSERNAME $MYUSERNAME
     echo "${MYUSERNAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${MYUSERNAME} 
     sudo chmod 0440 /etc/sudoers.d/${MYUSERNAME}
+
+    echo "reset default env"
+    export HOME=/home/${MYUSERNAME}
+    export GOPATH=/home/${MYUSERNAME}/go
+    export PATH=$PATH:/home/${MYUSERNAME}/go/bin:/usr/local/go/bin
 fi
 
 if [ "$1" == "vscode" ]; then

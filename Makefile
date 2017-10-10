@@ -8,6 +8,8 @@ endif
 
 #https://github.com/microscaling/microscaling/blob/master/Makefile
 
+fast:
+	docker build -t sebmoule/$(NAME) .
 
 #Build with generic user developer inside  the docker
 build:
