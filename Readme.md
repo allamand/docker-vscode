@@ -6,6 +6,7 @@ The image contains the following software:
 
 
 - [Visual Studio Code](https://code.visualstudio.com/) [ 140 Mo ]
+  - [vscode-go](https://github.com/Microsoft/vscode-go)
 - [Go 1.6.3](https://golang.org/) [ 320Mo ]
 - [git]() 2.7.4
 - [Emacs]() 24.5.1 + ruby 2.3.1 [ 189Mo ]
