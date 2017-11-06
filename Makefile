@@ -71,4 +71,10 @@ run-user:
 
 
 
+#Install VsCode on local system
+
+install:
+	curl -o vscode.deb -J -L https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable
+	sudo dpkg -i vscode.deb
+	rm -f vscode.deb 
 
